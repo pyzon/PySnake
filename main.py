@@ -7,6 +7,9 @@ from pygame.locals import *
 import colors
 
 
+INITIAL_SNAKE_LENGTH = 2
+
+
 # Direction enumeration
 class Direction(Enum):
     RIGHT = 0
@@ -255,7 +258,7 @@ class App:
     # Static
     cell_size = cell_width, cell_height = 20, 20
 
-    # TODO: refactor the init stuff so the on_init can be called multiple times
+    # TODO: refactor this into app, game controller, and game view and make menu view
     def __init__(self):
         self._running = True
         self._display_surf = None
@@ -276,7 +279,7 @@ class App:
         # Setting up the rest of the snake
         next_position = self.map.behind(self.snake.field.position, self.snake.direction)
         previous_snake_part = self.snake
-        for i in range(2):
+        for i in range(INITIAL_SNAKE_LENGTH):
             next_snake_body = SnakeBody(self.map.get_field(next_position))
             next_snake_body.connect_ahead(previous_snake_part)
             # TODO: might want a function that calculates the position behind a body part relative to the direction of the body part that it is following
@@ -397,8 +400,8 @@ class App:
 
 
 if __name__ == "__main__":
-    myApp = App()
-    myApp.on_execute()
+    app = App()
+    app.on_execute()
 
 # TODO: snake speed
 # TODO: snake lives
